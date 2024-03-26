@@ -6,14 +6,13 @@ import TodoItem from "../components/TodoItem";
 import { Navigate } from "react-router-dom";
 
 const Home = () => {
+  const { isAuthenticated} = useContext(Context);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading1, setLoading1] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [refresh, setRefresh] = useState("");
-  const { isAuthenticated} = useContext(Context);
-
-  if(!isAuthenticated) return <Navigate to='/login'/>
+ 
 
   const updateHandler = async (id) => {
     try {
@@ -80,6 +79,8 @@ const Home = () => {
       .catch((e) => toast.error(e.response.data.message));
   }, [refresh]);
 
+  if(!isAuthenticated) return <Navigate to='/login' />
+
   return (
     <div className="container">
       <div className="login">
@@ -118,6 +119,7 @@ const Home = () => {
             description={i.description}
             isCompleted={i.isCompleted}
             id={i._id}
+            key={i._id}
             updateHandler={updateHandler}
             deleteHandler={deleteHandler}
           ></TodoItem>

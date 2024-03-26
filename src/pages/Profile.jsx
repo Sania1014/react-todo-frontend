@@ -3,18 +3,16 @@ import { Context } from "../main";
 import Loader from "../components/Loader";
 
 const Profile = () => {
-  const { user, isAuthenticated, loading } = useContext(Context);
+  const { loading, user } = useContext(Context);
+  console.log(user)
 
-  console.log(user);
-
-  return (
-    loading? <Loader/>: <div>
-     
-    {/* agr user h to user name or email */}
-     <h1>{user?.name}</h1>   
-     <p>{user?.email}</p>
-   </div> 
-   
+  return loading ? (
+    <Loader />
+  ) : (
+    <div>
+      <h1>{user?.name}</h1>
+      <p>{user?.email}</p>
+    </div>
   );
 };
 

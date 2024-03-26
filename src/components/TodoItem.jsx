@@ -9,7 +9,7 @@ const TodoItem = ({ title, description, isCompleted, id, updateHandler, deleteHa
       </div>
 
       <div>
-        <input onChange={()=>{updateHandler(id)}}checked={isCompleted} type="checkbox" name="" id="" />
+        <input onChange={()=>{updateHandler(id)}} checked={isCompleted} type="checkbox" name="" id="" />
         <button onClick={()=>{deleteHandler(id)}}className="btn" type="">
           Delete
         </button>

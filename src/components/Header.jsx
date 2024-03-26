@@ -1,34 +1,39 @@
+import axios from "axios";
 import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { Context, server } from "../main";
-import toast from "react-hot-toast";
-import axios from "axios";
 
 const Header = () => {
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+  const {
+    isAuthenticated,
+    setIsAuthenticated,
+    loading,
+    setLoading,
+    setUser_refresher,
+  } = useContext(Context);
 
-  const logoutHandler = async (e) => {
-  
-    //first thing is server link, second one is data and third one is headers
+  const logoutHandler = async () => {
+    setLoading(true);
     try {
-      setLoading(true)
-      const { data } = await axios.get(
-        `${server}/users/logout`,
-       
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.get(`${server}/users/logout`, {
+        withCredentials: true,
+      });
+
       toast.success(data.message);
       setIsAuthenticated(false);
-      setLoading(false)
-    } catch (err) {
-      toast.error(err.response.data.message);
+      setLoading(false);
+      setUser_refresher((prev) => !prev);
+    } catch (error) {
+      toast.error(error.response.data.message);
       setIsAuthenticated(true);
-      setLoading(false)
+      setLoading(false);
     }
   };
-
+  //is sy jb b profle pr koi click kry ga to user ka data update hoga taky updated details profile sheet pr show huskain
+  const profile_handler = () => {
+    setUser_refresher((prev) => !prev);
+  };
 
   return (
     <nav className="header">
@@ -37,10 +42,13 @@ const Header = () => {
       </div>
       <article>
         <Link to={"/"}>Home</Link>
-        <Link to={"/profile"}>Profile</Link>
-
+        <Link onClick={profile_handler} to={"/profile"}>
+          Profile
+        </Link>
         {isAuthenticated ? (
-          <button disabled={loading} onClick={logoutHandler} className="btn">Logout</button>
+          <button disabled={loading} onClick={logoutHandler} className="btn">
+            Logout
+          </button>
         ) : (
           <Link to={"/login"}>Login</Link>
         )}

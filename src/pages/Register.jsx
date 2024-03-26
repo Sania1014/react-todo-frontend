@@ -5,12 +5,13 @@ import { Context, server } from "../main";
 import toast from "react-hot-toast";
 
 const Register = () => {
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading } =
+  useContext(Context);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } =
-    useContext(Context);
+ 
 
   const submitHandler = async (e) => {
     e.preventDefault();
